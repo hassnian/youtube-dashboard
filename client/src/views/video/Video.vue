@@ -4,13 +4,21 @@
     <v-row v-if="hasVideo" style="margin-top: 50px">
       <p>Title: {{video.title}}</p>
     </v-row>
+
+
+    <v-row v-if="hasVideo" style="margin-top: 50px">
+      <KewordsSearcher />
+    </v-row>
+
   </div>
 </template>
 
 <script>
+import KewordsSearcher from '../../components/KewordsSearcher/KewordsSearcher.vue';
+
 export default {
   name: 'Video',
-
+  components: { KewordsSearcher },
   data() {
     return {
       video: null,
