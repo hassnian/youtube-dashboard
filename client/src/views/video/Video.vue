@@ -15,6 +15,7 @@
 
 <script>
 import KewordsSearcher from '../../components/KewordsSearcher/KewordsSearcher.vue';
+import api from '../../services/api';
 
 export default {
   name: 'Video',
@@ -36,15 +37,15 @@ export default {
 
 
   methods: {
-    findVideo() {
+    async findVideo() {
       const videoId = this.$route.params.id;
-      const videoInformation = window.videos.find((video) => video.id === videoId);
+      const response = await api.videos.getOneVideo(videoId);
 
-      if (!videoInformation) {
+      if (!response.success) {
         this.$router.push({ name: 'Videos' });
       }
 
-      this.video = { ...videoInformation };
+      this.video = { ...response.data.video[0] };
     },
   },
 };

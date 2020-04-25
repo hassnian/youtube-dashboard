@@ -27,17 +27,22 @@
 
 <script>
 import { v4 as uuidv4 } from 'uuid';
+import api from '../../services/api';
 
 export default {
   name: 'Home',
   methods: {
-    addVideo() {
-      const videoId = uuidv4();
-      window.videos.push({
-        title: this.videoTitle,
-        id: videoId,
-      });
-      this.$router.push({ name: 'Video', params: { id: videoId } });
+    async addVideo() {
+      try {
+        const { data } = await api.videos.createOneVideo({
+          title: this.videoTitle,
+        });
+        console.log(data);
+
+        this.$router.push({ name: 'Video', params: { id: data.video._id } });
+      } catch (e) {
+        console.log(e);
+      }
     },
   },
   data() {

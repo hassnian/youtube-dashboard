@@ -5,7 +5,7 @@
       <v-list-item
         v-for="video in videos"
         :key="video.title"
-        @click="goToVideo(video.id)"
+        @click="goToVideo(video._id)"
       >
 
         <v-list-item-content>
@@ -23,16 +23,33 @@
 </template>
 
 <script>
+
+import api from '../../services/api';
+
 export default {
   name: 'Videos',
   methods: {
     goToVideo(id) {
       this.$router.push({ name: 'Video', params: { id } });
     },
+
+    async getVideos() {
+      try {
+        const { data } = await api.videos.getAllVideos();
+        this.videos = data.videos;
+      } catch (e) {
+        console.log(e);
+      }
+    },
   },
+
+  created() {
+    this.getVideos();
+  },
+
   data() {
     return {
-      videos: window.videos,
+      videos: [],
     };
   },
 };
