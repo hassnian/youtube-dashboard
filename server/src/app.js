@@ -3,7 +3,10 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
+
+/** ROUTERS * */
 const videosRouter = require('./routers/videos');
+const suggestionsRouter = require('./routers/suggestions');
 
 const app = express();
 const port = 3000;
@@ -17,6 +20,7 @@ const globalPrefix = '/api';
 app.use((req, res, next) => {
 	res.header('Access-Control-Allow-Origin', 'http://localhost:8080'); // update to match the domain you will make the request from
 	res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+	res.header('Access-Control-Allow-Methods', 'POST, PUT, GET, OPTIONS, DELETE, PATCH');
 	next();
 });
 
@@ -26,6 +30,7 @@ app.use(bodyParser.json());
 
 // routes
 app.use(globalPrefix, videosRouter);
+app.use(globalPrefix, suggestionsRouter);
 
 app.listen(port, (err) => {
 	if (err) {
